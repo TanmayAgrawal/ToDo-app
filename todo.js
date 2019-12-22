@@ -1,13 +1,13 @@
 var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost/todo';
+var url = 'mongodb://localhost/todoDB';
 var str = "";
 app.route('/').get(function(req,res) {
     var insert = req.query.insert;
     var remove = req.query.remove;
     var edit = req.query.edit;
-    MongoClient.connect(url,function(err,client) {
+    MongoClient.connect(url,{useNewUrlParser : true},function(err,client) {
         var db = client.db('todoDB');
         db.collection('todo').insertOne( {
             task : insert
@@ -26,4 +26,6 @@ app.route('/').get(function(req,res) {
         });
     });
 });
-app.listen(3000, function(){});
+app.listen(3000, function(){
+    console.log("Working");
+});
